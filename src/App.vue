@@ -20,7 +20,6 @@ import Cart from './components/Cart.vue'
   margin: 2rem;
 }
 .container {
-  display: flex;
-  gap: 2rem;
+  
 }
 </style>
