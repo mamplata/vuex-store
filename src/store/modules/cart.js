@@ -19,20 +19,18 @@ export default {
     ADD_TO_CART(state, product) {
       const existingItem = state.items.find(item => item.id === product.id)
       if (existingItem) {
-        existingItem.quantity++
+        existingItem.quantity++ // Increment quantity if already in cart
       } else {
-        state.items.push({ ...product, quantity: 1 })
+        state.items.push({ ...product, quantity: 1 }) // Add new product with quantity 1
       }
     },
     REMOVE_ITEM(state, productId) {
-      state.items = state.items.filter(item => item.id !== productId)
-    },
-    UPDATE_QUANTITY(state, { productId, quantity }) {
-      const cartItem = state.items.find(item => item.id === productId)
-      if (cartItem) {
-        cartItem.quantity = quantity
-        if (cartItem.quantity <= 0) {
-          state.items = state.items.filter(item => item.id !== productId)
+      const existingItem = state.items.find(item => item.id === productId)
+      if (existingItem) {
+        if (existingItem.quantity > 1) {
+          existingItem.quantity-- // Decrease quantity
+        } else {
+          state.items = state.items.filter(item => item.id !== productId) // Remove item if quantity is 1
         }
       }
     }
@@ -43,9 +41,6 @@ export default {
     },
     removeItem({ commit }, productId) {
       commit('REMOVE_ITEM', productId)
-    },
-    updateQuantity({ commit }, payload) {
-      commit('UPDATE_QUANTITY', payload)
     }
   }
 }

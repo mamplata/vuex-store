@@ -3,7 +3,6 @@
   <div class="product-list">
     <h2>Product List</h2>
     <div class="products" v-for="product in products" :key="product.id">
-      <img :src="product.image" :alt="product.name" />
       <h3>{{ product.name }}</h3>
       <p>Price: ${{ product.price }}</p>
       <button @click="addItem(product)">Add to Cart</button>

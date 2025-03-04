@@ -18,11 +18,7 @@
         <tr v-for="item in cartItems" :key="item.id">
           <td>{{ item.name }}</td>
           <td>${{ item.price }}</td>
-          <td>
-            <button @click="decrement(item.id, item.quantity)">–</button>
-            <span class="quantity">{{ item.quantity }}</span>
-            <button @click="increment(item.id, item.quantity)">+</button>
-          </td>
+          <td>{{ item.quantity }}</td>
           <td>${{ item.price * item.quantity }}</td>
           <td>
             <button @click="removeItem(item.id)">Remove</button>
@@ -44,29 +40,13 @@ import { useStore } from 'vuex'
 
 const store = useStore()
 
-// Computed properties to access cart state
 const cartItems = computed(() => store.getters['cart/cartItems'])
 const totalItems = computed(() => store.getters['cart/totalItems'])
 const totalPrice = computed(() => store.getters['cart/totalPrice'])
 
-// Function to remove an item from the cart
+// Remove item (decrease quantity, remove if only 1 left)
 function removeItem(productId) {
   store.dispatch('cart/removeItem', productId)
-}
-
-// Function to decrement quantity; if quantity becomes 0, the item is removed
-function decrement(productId, currentQuantity) {
-  if (currentQuantity == 1) {
-   return;
-  }
-  const newQuantity = currentQuantity - 1
-  store.dispatch('cart/updateQuantity', { productId, quantity: newQuantity })
-}
-
-// Function to increment quantity
-function increment(productId, currentQuantity) {
-  const newQuantity = currentQuantity + 1
-  store.dispatch('cart/updateQuantity', { productId, quantity: newQuantity })
 }
 </script>
 
@@ -83,10 +63,6 @@ th, td {
   border: 1px solid #ccc;
   padding: 0.5rem;
   text-align: center;
-}
-.quantity {
-  margin: 0 0.5rem;
-  font-weight: bold;
 }
 button {
   padding: 0.25rem 0.5rem;
